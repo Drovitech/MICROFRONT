@@ -18,8 +18,8 @@ function HostWrapper() {
         localStorage.setItem('mf_user', JSON.stringify(msg.user))
         setToken(msg.token)
         setUser(msg.user)
-        // redirigir a /dashboard (en host)
-        navigate('/dashboard')
+        // redirigir a /home (en host)
+        navigate('/home')
       } else if (msg.type === 'LOGOUT') {
         localStorage.removeItem('mf_token')
         localStorage.removeItem('mf_user')
@@ -37,7 +37,7 @@ function HostWrapper() {
     <>
       <Routes>
         <Route path="/" element={<LoginFrame />} />
-        <Route path="/dashboard" element={<ProtectedDashboard token={token} user={user} />} />
+        <Route path="/home" element={<ProtectedHome token={token} user={user} />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>
@@ -45,8 +45,8 @@ function HostWrapper() {
 }
 
 function LoginFrame() {
-  // Si ya hay token, redirige al dashboard
-  if (localStorage.getItem('mf_token')) return <Navigate to="/dashboard" replace />
+  // Si ya hay token, redirige al home
+  if (localStorage.getItem('mf_token')) return <Navigate to="/home" replace />
   return (
     <div className="min-h-screen">
       <iframe title="login" src="http://localhost:3001" className="w-full h-screen border-0" />
@@ -54,12 +54,12 @@ function LoginFrame() {
   )
 }
 
-function ProtectedDashboard({ token, user }) {
+function ProtectedHome({ token, user }) {
   if (!token) return <Navigate to="/" replace />
-  // Renderizamos el iframe del dashboard
+  // Renderizamos el iframe del home
   return (
     <div className="min-h-screen">
-      <iframe title="dashboard" src="http://localhost:3002" className="w-full h-screen border-0" />
+      <iframe title="home" src="http://localhost:3002" className="w-full h-screen border-0" />
     </div>
   )
 }
